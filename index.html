@@ -339,7 +339,16 @@
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here.');
             map.setCenter(pos);
-         
+          var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: pos,
+      radius: 50000
+    });
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
@@ -356,16 +365,7 @@
           url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/viirs/kml/VNP14IMGTDL_NRT_Europe_24h.kml',
           map: map
         });
-            var cityCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      center: position.coords.latitude, position.coords.longitude,
-      radius: 50000
-    });
+           
                  function CSVToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
     // then default to comma.
