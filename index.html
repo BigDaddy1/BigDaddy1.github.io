@@ -188,7 +188,7 @@ url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/c6/k..',
 map: map 
 });
            
-                 function CSVToArray(strData, strDelimiter) {
+                  function CSVToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
     // then default to comma.
     strDelimiter = (strDelimiter || ",");
@@ -263,7 +263,22 @@ function CSV2JSON(csv) {
    var csv= document.getElementById("csv").value;
                 
    var json = CSV2JSON(csv);
-              var data=JSON.parse(json);
+              
+            var coord=JSON.parse(json);
+                 var checkk=false;
+                 for (var i = 0; i < coord.length; i++){
+  
+                var distancee = Math.sqrt((position.coords.latitude-coord[i].latitude)*(position.coords.latitude-coord[i].latitude)  + (position.coords.longitude-coord[i].longitude)*(position.coords.longitude-coord[i].longitude));
+ if (distancee<=0.4504) {
+   checkk=true;
+}                 
+}
+          function checker() {
+     if(checkk==true){alert("Point of fire is possible in your area. Please, be careful.");}
+else {alert("There is no possible point of fire in your area. Have a nice day.");}
+  }      
+ 
+setTimeout(checker, 3000);
                  
     
         
