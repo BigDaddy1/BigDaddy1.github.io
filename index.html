@@ -326,45 +326,43 @@
         });
    
      
-        var infoWindow = new google.maps.InfoWindow({map: map});
+        var infoWindow = new google.maps.InfoWindow({map: map}); 
+// Try HTML5 geolocation. 
+if (navigator.geolocation) { 
+navigator.geolocation.getCurrentPosition(function(position) { 
+var pos = { 
+lat: position.coords.latitude, 
+lng: position.coords.longitude 
+}; 
+infoWindow.setPosition(pos); 
+infoWindow.setContent('You are here.'); 
+var mylat = pos.lat; 
+var mylng = pos.lng; 
+var coor = new String (mylat+" "+mylng); 
+alert(coor) ; 
+map.setCenter(pos); 
+var cityCircle = new google.maps.Circle({ 
+strokeColor: '#FF0000', 
+strokeOpacity: 0.8, 
+strokeWeight: 2, 
+fillColor: '#FF0000', 
+fillOpacity: 0.35, 
+map: map, 
+center: pos, 
+radius: Math.sqrt(250000) * 100 
+}); 
+}, function() { 
+handleLocationError(true, infoWindow, map.getCenter()); 
+}); 
+} else { 
+// Browser doesn't support Geolocation 
+handleLocationError(false, infoWindow, map.getCenter());
+} 
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here.');
-            map.setCenter(pos);
-          var cityCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      center: pos,
-      radius: 50000
-    });
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }   
-        var usa_hawa= new google.maps.KmlLayer({
-          url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/c6/kml/MODIS_C6_USA_contiguous_and_Hawaii_24h.kml',
-          map: map
-        });
-     
-        var europe = new google.maps.KmlLayer({
-          url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/viirs/kml/VNP14IMGTDL_NRT_Europe_24h.kml',
-          map: map
-        });
+var europe = new google.maps.KmlLayer({ 
+url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/c6/k..', 
+map: map 
+});
            
                  function CSVToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
