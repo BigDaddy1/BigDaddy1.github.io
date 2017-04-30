@@ -143,6 +143,7 @@
 42.29,-8.169,314.2,1,1,2017-04-29,2230,T,84,6.0NRT,271.1,17.1,N</textarea>
     <div id="map"></div>
     <script>
+        var checkk=false;
  function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 3,
@@ -150,22 +151,32 @@
         });
    
      
-        var infoWindow = new google.maps.InfoWindow({map: map}); 
-// Try HTML5 geolocation. 
-if (navigator.geolocation) { 
-navigator.geolocation.getCurrentPosition(function(position) { 
-var pos = { 
-lat: position.coords.latitude, 
-lng: position.coords.longitude 
-}; 
-infoWindow.setPosition(pos); 
-infoWindow.setContent('You are here.'); 
-var mylat = pos.lat; 
-var mylng = pos.lng; 
-var coor = new String (mylat+" "+mylng); 
-alert(coor) ; 
-map.setCenter(pos); 
-var cityCircle = new google.maps.Circle({ 
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+var csv= document.getElementById("csv").value;
+                
+   var json = CSV2JSON(csv);
+              
+            var coord=JSON.parse(json);
+                 
+                 for (var i = 0; i < coord.length; i++){
+  
+                var distancee = Math.sqrt((position.coords.latitude-coord[i].latitude)*(position.coords.latitude-coord[i].latitude)  + (position.coords.longitude-coord[i].longitude)*(position.coords.longitude-coord[i].longitude));
+ if (distancee<=0.4504) {
+   checkk=true;
+}                 
+}
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here.');
+            map.setCenter(pos);
+         var cityCircle = new google.maps.Circle({ 
 strokeColor: '#FF0000', 
 strokeOpacity: 0.8, 
 strokeWeight: 2, 
@@ -175,20 +186,24 @@ map: map,
 center: pos, 
 radius: Math.sqrt(250000) * 100 
 }); 
-}, function() { 
-handleLocationError(true, infoWindow, map.getCenter()); 
-}); 
-} else { 
-// Browser doesn't support Geolocation 
-handleLocationError(false, infoWindow, map.getCenter());
-} 
-
-var europe = new google.maps.KmlLayer({ 
-url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/c6/k..', 
-map: map 
-});
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }   
+        var usa_hawa= new google.maps.KmlLayer({
+          url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/c6/kml/MODIS_C6_USA_contiguous_and_Hawaii_24h.kml',
+          map: map
+        });
+     
+        var europe = new google.maps.KmlLayer({
+          url: 'https://firms.modaps.eosdis.nasa.gov/active_fire/viirs/kml/VNP14IMGTDL_NRT_Europe_24h.kml',
+          map: map
+        });
            
-                  function CSVToArray(strData, strDelimiter) {
+                 function CSVToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
     // then default to comma.
     strDelimiter = (strDelimiter || ",");
@@ -260,19 +275,7 @@ function CSV2JSON(csv) {
 }
 
  ;
-   var csv= document.getElementById("csv").value;
-                
-   var json = CSV2JSON(csv);
-              
-            var coord=JSON.parse(json);
-                 var checkk=false;
-                 for (var i = 0; i < coord.length; i++){
-  
-                var distancee = Math.sqrt((position.coords.latitude-coord[i].latitude)*(position.coords.latitude-coord[i].latitude)  + (position.coords.longitude-coord[i].longitude)*(position.coords.longitude-coord[i].longitude));
- if (distancee<=0.4504) {
-   checkk=true;
-}                 
-}
+   
           function checker() {
      if(checkk==true){alert("Point of fire is possible in your area. Please, be careful.");}
 else {alert("There is no possible point of fire in your area. Have a nice day.");}
