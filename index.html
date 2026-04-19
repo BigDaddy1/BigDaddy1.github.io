@@ -1,18 +1,81 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jump Bitch Online</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312151d'/%3E%3Crect x='8' y='6' width='16' height='20' rx='3' fill='%2378dcff'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <style>
-img {
-border-radius: 1%;
-  width: 100%;
-}
-</style>
-    <title>Smart Bill</title>
+      :root {
+        color-scheme: dark;
+        --bg: #12151d;
+        --panel: #1b2130;
+        --line: #6ec9ff;
+        --text: #eef3ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #273148 0%, var(--bg) 58%);
+        color: var(--text);
+        font-family: "Press Start 2P", "Courier New", monospace;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .frame {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+      }
+
+      #game-root {
+        width: 1280px;
+        max-width: calc(100vw - 48px);
+        aspect-ratio: 16 / 9;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 3px solid rgba(255, 255, 255, 0.05);
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .hint {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 12px;
+        color: rgba(238, 243, 255, 0.72);
+        letter-spacing: 0.08em;
+      }
+    </style>
   </head>
   <body>
-    
-    <img src="back-1.png">
-    <img src="back-2.png">
-    <img src="back-3.png">   
+    <div class="shell">
+      <div class="frame">
+        <div id="game-root"></div>
+        <div class="hint">WASD / ARROWS / SPACE · ENTER FOR NEXT LEVEL · R TO RESTART</div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
-</html>
+  </html>
